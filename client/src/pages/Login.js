@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { loginUser } from "../services/api";
-import { useUser } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const initialUser = {
   username: "",
@@ -9,8 +9,8 @@ const initialUser = {
 };
 
 function Login() {
-  const { userName, setUserName } = useUser();
   const [user, setUser] = useState(initialUser);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -18,11 +18,12 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await loginUser(user);
-    const data = res?.data;
-    console.log(data);
-    setUserName(data.user.username);
-    console.log(userName);
+    const { status, message } = await loginUser(user);
+    if (status === "success") {
+      navigate("/");
+    } else {
+      alert(message);
+    }
   };
   return (
     <div className="">

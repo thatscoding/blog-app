@@ -8,9 +8,13 @@ export const registerUser = async (data) => {
   }
 };
 
-export const loginUser = async (data) => {
+export const loginUser = async (loginData) => {
   try {
-    return await axios.post("/user/login", data);
+    const { data } = await axios.post("/user/login", loginData);
+    // console.log("test", data.user);
+
+    localStorage.setItem("UserInfo", JSON.stringify(data.user));
+    return data;
   } catch (error) {
     console.log(error);
   }

@@ -60,7 +60,11 @@ class UserController {
               status: "success",
               message: "logined succesfully",
               token: token,
-              user: user,
+              user: {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+              },
             });
           } catch (err) {
             res.send({ status: "failed", message: err });

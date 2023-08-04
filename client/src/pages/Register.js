@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../services/api";
 
 const initialUser = {
@@ -11,6 +11,7 @@ const initialUser = {
 
 function Register() {
   const [user, setUser] = useState(initialUser);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -22,6 +23,11 @@ function Register() {
     const data = res.data;
     console.log(data);
     setUser(initialUser);
+    if (data.status === "success") {
+      navigate("/login");
+    } else {
+      alert(data.message);
+    }
   };
 
   return (
